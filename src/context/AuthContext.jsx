@@ -10,8 +10,20 @@ const dataReducer = (state,action) => {
 
   switch(action.type) {
     case 'setProfile':
-      console.log("SET PROFILE", action.payload)
-      return {...state,profile:action.payload};
+      let eligRoles = [];
+      let roles = [];
+
+      if(action.payload.user_data.eligible_roles_association) {
+        eligRoles = action.payload.user_data.eligible_roles_association;
+      }
+      if(action.payload.user_data.roles) {
+        roles = action.payload.user_data.roles;
+      }
+      return {...state,
+        profile:action.payload,
+        eligibleRoles : eligRoles,
+        activeRoles : roles
+      };
     case 'setEligibleRoles':
       return {...state,eligibleRoles:action.payload};
     case 'setActiveRoles':

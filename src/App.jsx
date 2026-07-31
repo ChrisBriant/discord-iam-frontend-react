@@ -7,6 +7,7 @@ import TermsAndConditions from './components/TermsAndConditions';
 import Banner from './components/Banner';
 import Title from './components/Title';
 import {Context as AuthContext} from './context/AuthContext';
+import SideBar from './components/SideBar';
 
 function App() {
   const [loadingSession, setLoadingSession] = useState(true);
@@ -84,9 +85,7 @@ function App() {
 
   return (
     <div className='page'>
-      <div className="sideBar">
-        
-      </div>
+      <SideBar />
       <div className="content">
         <Title />
         <div className="main">
