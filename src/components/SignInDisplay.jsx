@@ -1,6 +1,6 @@
 const SignInDisplay = ({handleSignIn, idps}) => {
     return (
-        <div className="signInBox">
+        <div className="signInBox panel">
             <h2>Sign In</h2>
             <div className="idp-selection">
                 {

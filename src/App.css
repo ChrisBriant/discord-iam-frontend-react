@@ -1,0 +1,137 @@
+:root {
+    --title-bg-color : #51514e;
+    --title-bg-gradient-2 : linear-gradient(180deg,rgba(237, 221, 83, 1) 0%, rgba(237, 221, 83, 0.33) 90%);
+    --title-bg-gradient : linear-gradient(180deg, rgb(83 131 237) 0%, rgb(83 120 237 / 33%) 90%);
+    --sidebar-color : #c0bfc5;
+    --error-text-color : #d53e3e;
+}
+
+
+img {
+    width: 100%;
+    height: 100%;
+}
+
+p.error {
+    color : var(--error-text-color);
+}
+
+/* LAYOUT  */
+
+.page {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+}
+
+.sideBar {
+    width: 15%;
+    background-color: var(--sidebar-color);
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+}
+
+.content {
+    width: 85%;
+    padding: 0 10px;
+}
+
+.panel {
+    position: relative;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    margin-bottom: 20px;
+    background-color: var(--title-bg-color);
+}
+
+
+/* TITLE IMAGE  */
+
+#powerSwordLogo {
+    height: 60%;
+    width: 60%;
+}
+
+#title.panel::after {
+    position: absolute;
+    content: "";
+    background: var(--title-bg-gradient);
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 100;
+
+    mask-image: url("/castle.svg");
+    mask-repeat: no-repeat;
+    mask-position: center;
+    mask-size: contain;
+
+    -webkit-mask-image: url("/castle.svg");
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    -webkit-mask-size: contain;
+}
+
+#title.panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 200;
+    height: 40vh;
+}
+
+#title.panel h1,
+#title.panel h2,
+#title.panel h3,
+#title.panel img {
+    z-index: 300;
+    position: relative;
+    color: #fff;
+}
+
+#title.panel .head {
+    height: 30%;
+}
+
+#title.panel .body {
+    height: 40%;
+    width: 80%;
+    background-image: url("/power_sword_2.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    opacity: 1;
+    padding: 20px;
+    z-index: 200;
+}
+
+#title.panel .footer {
+    height: 20%;
+}
+
+/* DISCORD SIGN IN  */
+.idp-selection {
+    display: flex;
+    justify-content: center;
+}
+
+.idpTile {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    width: 40%;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.idpTile .imageContainer {
+    width: 100px;
+    height: 40px;
+}
+
+.idpTile p {
+    font-size: 1.5rem;
+    font-weight: bold;
+}

@@ -1,33 +1,45 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import './App.css'
 import { getIdpList, getSession, refresh } from './auth/auth'
 import AuthenticatedDisplay from './components/AuthenticatedDisplay';
 import SignInDisplay from './components/SignInDisplay';
 import TermsAndConditions from './components/TermsAndConditions';
 import Banner from './components/Banner';
+import Title from './components/Title';
+import {Context as AuthContext} from './context/AuthContext';
 
 function App() {
   const [loadingSession, setLoadingSession] = useState(true);
   const [authenticated, setAuthenticated] = useState(false);
-  const [profile, setProfile] = useState(null);
+  //const [profile, setProfile] = useState(null);
   const [idps, setIdps] = useState([]);
   const [feedbackSubmitted, setFeedbackSubmitted] = useState(false);
   const [feedbackSubmittedError, setFeedbackSubmittedError] = useState(false);
   const [sessionRefresh,setSessionRefresh] = useState(0);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const {state:{profile,eligibleRoles,activeRoles}, setProfile } = useContext(AuthContext);
 
 
   useEffect(() => {
     getSession().then((res) => {
       //Set loaded, profile and authenticated 
+      setProfile(res);
       setLoadingSession(false);
       setAuthenticated(true);
-      setProfile(res);
     }).catch(err => {
+      console.log("ERR", err);
+      if(err.message === "Network Error") {
+        console.log("THERE IS  A NETWORK ERR");
+        setErrorMessage("There is a network error, please try again later.");
+        return;
+      }
       if(err.response.status === 401) {
         //Try refresh
         refresh().then( async (res) => {
             const profile = await getSession();
             setProfile(profile);
+            console.log("HERE IS THE PROFILE", profile);
             setLoadingSession(false);
             setAuthenticated(true);
         }).catch(async err => {
@@ -72,36 +84,37 @@ function App() {
 
   return (
     <div className='page'>
-      <Banner />
-      <div className="main">
-        {
-          loadingSession
-          ? <p>Loading...</p>
-          : <>
-            {
-              authenticated
-              ? <> 
-                {
-                  profile.accepted_terms
-                  ? <AuthenticatedDisplay
-                      setAuthenticated={setAuthenticated}  
-                      setSessionRefresh={setSessionRefresh}
-                      profile={profile} 
-                      onSignOut={onSignOut}
-                      setFeedbackSubmitted={setFeedbackSubmitted}
-                      feedbackSubmitted={feedbackSubmitted}
-                      setFeedbackSubmittedError={setFeedbackSubmittedError}
-                      feedbackSubmittedError={feedbackSubmittedError}
-                  /> 
-                  : <TermsAndConditions setSessionRefresh={setSessionRefresh} />
-                }
-              
-              </>
-              : <SignInDisplay handleSignIn={handleSignIn} idps={idps} />
-            }
-          </> 
-        }
+      <div className="sideBar">
+        
       </div>
+      <div className="content">
+        <Title />
+        <div className="main">
+          {
+            errorMessage === ""
+            ? loadingSession
+              ? <p>Loading...</p>
+              : <>
+                {
+                  authenticated
+                  ? <> 
+                    {
+                      profile?.accepted_terms
+                      ? <div className="dashboard">
+
+                      </div>
+                      : <TermsAndConditions setSessionRefresh={setSessionRefresh} />
+                    }
+                  
+                  </>
+                  : <SignInDisplay handleSignIn={handleSignIn} idps={idps} />
+                }
+              </> 
+            : <p className='error'>{errorMessage}</p>
+          }
+        </div>
+      </div>
+
 
     </div>
   )
