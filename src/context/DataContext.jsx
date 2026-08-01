@@ -8,7 +8,7 @@ const dataReducer = (state,action) => {
 
   switch(action.type) {
     case 'setChannels':
-      return {...state,currentPlayerTurn:action.payload};
+      return {...state,channels:action.payload};
     default:
       return defaultState;
   }

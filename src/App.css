@@ -4,6 +4,9 @@
     --title-bg-gradient : linear-gradient(180deg, rgb(83 131 237) 0%, rgb(83 120 237 / 33%) 90%);
     --sidebar-color : #c0bfc5;
     --error-text-color : #d53e3e;
+    --panel-bg-color: #fff;
+    --side-bar-btn-color : #c0bfc5;
+    --side-bar-btn-fg-color : #fff;
 }
 
 
@@ -14,6 +17,29 @@ img {
 
 p.error {
     color : var(--error-text-color);
+}
+
+/* BUTTONS  */
+
+.btn {
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+}
+
+.sideBar .btn {
+    background-color: var(--side-bar-btn-color);
+    color: var(--side-bar-btn-fg-color);
+    font-size: 1.5rem;
+    border-color: var(--side-bar-btn-fg-color);
+    border: 1px solid;
+    cursor: pointer;
+    transition: box-shadow 0.2s ease;
+}
+
+.sideBar .btn:hover {
+    box-shadow: 0 0 0 2px #9CA3AF;
+    transition: box-shadow 0.2s ease;
 }
 
 /* LAYOUT  */
@@ -40,7 +66,7 @@ p.error {
     box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
     padding: 10px;
     margin-bottom: 20px;
-    background-color: var(--title-bg-color);
+    background-color: var(--panel-bg-color);
 }
 
 
@@ -78,6 +104,7 @@ p.error {
     align-items: center;
     z-index: 200;
     height: 40vh;
+    background-color: var(--title-bg-color);
 }
 
 #title.panel h1,

@@ -13,3 +13,5 @@ function getChannels() {
         });
     });
 } 
+
+export { getChannels};
