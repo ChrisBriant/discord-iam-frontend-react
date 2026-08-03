@@ -8,6 +8,7 @@ import Banner from './components/Banner';
 import Title from './components/Title';
 import {Context as AuthContext} from './context/AuthContext';
 import SideBar from './components/SideBar';
+import DashBoard from './components/dashPanels/DashBoard';
 
 function App() {
   const [loadingSession, setLoadingSession] = useState(true);
@@ -99,9 +100,7 @@ function App() {
                   ? <> 
                     {
                       profile?.accepted_terms
-                      ? <div className="dashboard">
-
-                      </div>
+                      ? <DashBoard />
                       : <TermsAndConditions setSessionRefresh={setSessionRefresh} />
                     }
                   

@@ -7,6 +7,15 @@
     --panel-bg-color: #fff;
     --side-bar-btn-color : #c0bfc5;
     --side-bar-btn-fg-color : #fff;
+
+    --selected-channel-item-text : #fff;
+    --selected-channel-item-bg : #302df4;
+
+    --feed-border-color : #c0bfc5;
+ 
+    /* graphics  */
+    --spinner-color : #5c5c5c;
+    --loading-widget-container : #fff;
 }
 
 
@@ -52,8 +61,20 @@ p.error {
 
 .sideBar {
     width: 15%;
+    padding: 10px;
     background-color: var(--sidebar-color);
     box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+}
+
+.dashBoard {
+    display: flex;
+    flex-direction: row;
+}
+
+.dashBoard .panel {
+    width: 50%;
+    height: 48vh;
+    margin: 0 10px;
 }
 
 .content {
@@ -67,6 +88,17 @@ p.error {
     padding: 10px;
     margin-bottom: 20px;
     background-color: var(--panel-bg-color);
+}
+
+.panel.channelFeed {
+    display: flex;
+    align-items: center;
+}
+
+/* side bar layout  */
+
+#sideBarAdmin {
+    padding-bottom: 20px;
 }
 
 
@@ -161,4 +193,93 @@ p.error {
 .idpTile p {
     font-size: 1.5rem;
     font-weight: bold;
+}
+
+/* CHANNELS COMPONENT */
+
+.channelItem {
+    cursor: pointer;
+    border-radius: 6px;
+    padding: 4px;
+    border: solid 1px #fff;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    word-break: break-all;
+    overflow: hidden;
+    margin: 4px 0;
+}
+
+.channelItem:hover {
+    box-shadow: 0 0 0 2px #9CA3AF;
+    transition: box-shadow 0.2s ease;
+}
+
+.channelItem.selected {
+    color : var(--selected-channel-item-text);
+    background-color: var(--selected-channel-item-bg);
+}
+
+/* FEED  */
+
+.feed {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: start;
+    border: 1px solid var(--feed-border-color);
+    margin: 10px;
+    height: 90%;
+    overflow-y: scroll;
+    padding: 10px;
+}
+
+.feed .messageItem {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: flex-start;
+}
+
+/* LOADING WIDGET  */
+.lds-dual-ring {
+  display: inline-block;
+  width: 60px;
+  height: 60px;
+}
+
+.lds-dual-ring:after {
+  content: " ";
+  display: block;
+  width: 40px;
+  height: 40px;
+  margin: 8px;
+  border-radius: 50%;
+  border: 12px solid #fff;
+  border-color: var(--spinner-color) transparent var(--spinner-color) transparent;
+  animation: lds-dual-ring 1.2s linear infinite;
+}
+
+.lds-dual-ring.hidden {
+  display: none;
+}
+
+/* .loading-area {
+  position: relative;
+} */
+
+.spin-container {
+  position:absolute;
+  width: 100%;
+}
+
+
+@keyframes lds-dual-ring {
+  0% {
+      transform: rotate(0deg);
+  }
+  100% {
+      transform: rotate(360deg);
+  }
 }
