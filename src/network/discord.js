@@ -29,4 +29,18 @@ function getFeed(channelId) {
     });
 } 
 
-export { getChannels, getFeed};
+function getEvents() {
+    return new Promise( async (resolve,reject) => {
+        const url = `/discord/events`;
+
+        conn.get(url)
+        .then( (response) => {
+            return resolve(response.data);
+        }).catch((err) => {
+            console.error("ERROR REJECT",err);
+            return reject(err);
+        });
+    });
+} 
+
+export { getChannels, getFeed, getEvents};

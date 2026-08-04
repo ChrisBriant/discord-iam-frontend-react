@@ -4,6 +4,7 @@ const defaultState = {
   channels : [],
   feed : [],
   selectedChannel : null,
+  events : [],
 }
 
 const dataReducer = (state,action) => {
@@ -15,6 +16,8 @@ const dataReducer = (state,action) => {
       return {...state,selectedChannel:action.payload};
     case 'setFeed':
       return {...state,feed:action.payload};
+    case 'setEvents':
+      return {...state,events:action.payload};
     default:
       return defaultState;
   }
@@ -34,11 +37,16 @@ const setFeed = (dispatch) => (data) => {
   dispatch({type:'setFeed', payload:data});
 }
 
+const setEvents = (dispatch) => (data) => {
+  dispatch({type:'setEvents', payload:data});
+}
+
 export const {Provider, Context} = createDataContext (
     dataReducer,
     { setChannels,
       setSelectedChannel,
       setFeed,
+      setEvents,
     },
     {...defaultState}
 );
