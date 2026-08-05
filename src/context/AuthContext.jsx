@@ -4,6 +4,7 @@ const defaultState = {
   profile : null,
   eligibleRoles: [],
   activeRoles : [],
+  authenticated : false,
 }
 
 const dataReducer = (state,action) => {
@@ -19,6 +20,7 @@ const dataReducer = (state,action) => {
       if(action.payload.user_data.roles) {
         roles = action.payload.user_data.roles;
       }
+      
       return {...state,
         profile:action.payload,
         eligibleRoles : eligRoles,
@@ -28,6 +30,9 @@ const dataReducer = (state,action) => {
       return {...state,eligibleRoles:action.payload};
     case 'setActiveRoles':
       return {...state,activeRoles:action.payload};
+    case 'setAuthenticated':
+      console.log("SETTING AUTHENTICATED", action.payload);
+      return {...state,authenticated:action.payload};
     default:
       return defaultState;
   }
@@ -47,8 +52,12 @@ const setEligibleRoles = (dispatch) => (data) => {
   dispatch({type:'setEligibleRoles', payload:data});
 }
 
+const setAuthenticated = (dispatch) => (data) => {
+  dispatch({type:'setAuthenticated', payload:data});
+}
+
 export const {Provider, Context} = createDataContext (
     dataReducer,
-    { setProfile, setActiveRoles, setEligibleRoles},
+    { setProfile, setActiveRoles, setEligibleRoles,setAuthenticated},
     {...defaultState}
 );

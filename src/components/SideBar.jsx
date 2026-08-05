@@ -3,11 +3,13 @@ import { Context as AuthContext } from "../context/AuthContext";
 import { Context as DataContext } from "../context/DataContext";
 import {getChannels, getFeed} from "../network/discord";
 import ChannelList from "./ChannelList";
+import { useNavigate } from "react-router-dom";
 
 const SideBar = () => {
     const {state:{profile,activeRoles,eligibleRoles}} = useContext(AuthContext);
     const {state:{channels,selectedChannel}, setChannels, setSelectedChannel, setFeed} = useContext(DataContext);
     const [errorMessage, setErrorMessage] = useState("");
+    const navigate = useNavigate();
 
     useEffect(() => {
         // if(!channels) {
@@ -52,7 +54,7 @@ const SideBar = () => {
             <div id="sideBarAdmin" className="btn-group">
                 {
                     eligibleRoles.length > 0
-                    ? <button className="btn">Admin</button>
+                    ? <button className="btn" onClick={() => navigate("/admin")}>Admin</button>
                     : null
                 }
             </div>
