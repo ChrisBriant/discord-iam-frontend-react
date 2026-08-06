@@ -1,7 +1,9 @@
+import RoleSelection from "./RoleSelection";
+
 const Admin = () => {
     return(
         <div>
-            <p>This is the admin screen</p>
+            <RoleSelection />
         </div>
     );
 }

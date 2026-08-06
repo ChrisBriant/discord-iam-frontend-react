@@ -5,6 +5,9 @@
     --sidebar-color : #c0bfc5;
     --error-text-color : #d53e3e;
     --panel-bg-color: #fff;
+    --panel-alt-bg-color : #0f172a;
+    --panel-alt-border-color : #1e293b;
+    --panel-alt-fg-color : bisque;
     --side-bar-btn-color : #c0bfc5;
     --side-bar-btn-fg-color : #fff;
 
@@ -99,6 +102,13 @@ p.error {
     align-items: center;
 }
 
+
+.panel.panelAlt {
+  background-color: var(--panel-alt-bg-color);
+  border-radius: 10px;
+  border: 1px solid var(--panel-alt-border-color);
+  color: var(--panel-alt-fg-color);
+} 
 /* side bar layout  */
 
 #sideBarAdmin {
@@ -592,4 +602,17 @@ p.error {
 
 .calendar-btn-primary:hover {
   background-color: #6366f1;
+}
+
+/* ROLE SELECTION  */
+
+#roleSelection {
+  width: 50%;
+  display: flex;
+  flex-direction: row;
+}
+
+#roleSelection .panel {
+  width: 50%;
+  margin: 10px;
 }
