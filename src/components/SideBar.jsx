@@ -52,7 +52,7 @@ const SideBar = () => {
             </div>
             {/* if the user has eligible roles then it will have a link to the admin console */}
             {
-                location.pathName === "/" || location.pathname === "/home"
+                location.pathname === "/" || location.pathname === "/home"
                 ? <div id="sideBarAdmin" className="btn-group">
                     {
                         eligibleRoles.length > 0
@@ -73,7 +73,7 @@ const SideBar = () => {
 
             {/* Display the channels depending on the page */}
             {
-                location.pathName === "/" || location.pathname === "/home"
+                location.pathname === "/" || location.pathname === "/home"
                 ? <div className="channelsList">
                     <h3><strong>Channels</strong></h3>
                     {
