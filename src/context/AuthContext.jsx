@@ -5,6 +5,31 @@ const defaultState = {
   eligibleRoles: [],
   activeRoles : [],
   authenticated : false,
+  //Defines what the roles give access to in the front end
+  roleDefinitions : {
+    "Event Manager" : {
+      actions : ["events"]
+    },
+    "Event Administrator" : {
+        actions : ["events"]
+    },
+    "Channel Manager" : {
+        actions : ["channels"]
+    },
+    "User Manager" : {
+        actions : ["users"]
+    },
+    "Role Manager" : {
+        actions : ["roles"]
+    },
+  },
+  //For handling what actions the user is able to do
+  availableActions : [],
+}
+
+function getActionsForRoles(userRoles) {
+  const actions = userRoles.flatMap(role => defaultState.roleDefinitions[role]?.actions || []);
+  return [...new Set(actions)];
 }
 
 const dataReducer = (state,action) => {
@@ -29,7 +54,11 @@ const dataReducer = (state,action) => {
     case 'setEligibleRoles':
       return {...state,eligibleRoles:action.payload};
     case 'setActiveRoles':
-      return {...state,activeRoles:action.payload};
+      //Process the actions the user has available based on their active roles
+      const activeRoleNames = action.payload.map((r) => r.name);
+      const availableActions = getActionsForRoles(activeRoleNames);
+      console.log("AVAILABLE ACTIONS", availableActions)
+      return {...state,activeRoles:action.payload,availableActions:availableActions};
     case 'setAuthenticated':
       console.log("SETTING AUTHENTICATED", action.payload);
       return {...state,authenticated:action.payload};
