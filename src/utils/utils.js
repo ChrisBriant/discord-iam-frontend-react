@@ -2,4 +2,8 @@ function hasExpired(dateString) {
     return new Date(dateString) < new Date();
 }
 
-export {hasExpired};
+function formatBritishDate(dateString) {
+    return new Date(dateString).toLocaleDateString("en-GB");
+}
+
+export {hasExpired, formatBritishDate};

@@ -17,6 +17,25 @@
     --list-item-border-color : #4b4b4b;
     --selected-list-item-bg-color : #e8f0fe;
     --selected-list-item-accent-color : #1a73e8;
+    --list-item-alt-color : bisque;
+    --list-item-alt-hover-color : rgb(255, 241, 224);
+    --selected-list-item-alt-accent-color : #fff;
+    --selected-list-item-alt-bg-color : #253761;
+
+    /* buttons  */
+    --btn-disabled-bg-color : #334155;
+    --btn-disabled-text-color : #94a3b8;
+    --btn-focus-ring-color : #0f172a;
+    --btn-shadow-color : rgba(37, 99, 235, 0.2);
+    --btn-active-bg-color:  #0f172a;
+    --btn-hover-shadow-color: rgba(37, 99, 235, 0.35);
+    --btn-hover-text-color: #ffffff;
+    --btn-hover-bg-color: #1f2f54;
+    --btn-bg-color : #0f172a;
+    --btn-text-color : #ffffff;
+    --btn-alt-bg-color : #c7c4c4;
+    --btn-alt-text-color : #232222;
+    --btn-alt-disabled-bg-color : #878686;
 
     /* channels  */
     --selected-channel-item-text : #fff;
@@ -98,6 +117,15 @@ p.error {
   transform: none;
 }
 
+.btn.alt {
+  background-color: var(--btn-alt-bg-color);
+  color: var(--btn-alt-text-color);
+}
+
+.btn.alt:disabled {
+  background-color: var(--btn-alt-disabled-bg-color);
+}
+
 .sideBar .btn {
     background-color: var(--side-bar-btn-color);
     color: var(--side-bar-btn-fg-color);
@@ -173,7 +201,10 @@ p.error {
 }
 
 .listItem {
-  background-color: var(--list-item-color);
+  /* background-color: var(--list-item-color); */
+  display: grid;
+  grid-template-columns: auto;
+  grid-auto-flow: column;
   margin: 2px 0;
   color: var(--list-item-text-color);
   cursor: pointer;
@@ -184,10 +215,33 @@ p.error {
 }
 
 .listItem.role.selected {
-  background-color: var(--selected-list-item-bg-color);
+
+  /* background-color: var(--selected-list-item-bg-color); */
   border-left: 4px solid var(--selected-list-item-accent-color);
   font-weight: 600;
 }
+
+.listItem.activeRole {
+  color: var(--list-item-alt-color);
+  transition: color 1s ease-in-out;
+}
+
+.listItem.activeRole:hover {
+  color: var(--list-item-alt-hover-color);
+  transition: color 1s ease-in-out;
+}
+
+.listItem.activeRole.selected {
+  border-left: 4px solid var(--selected-list-item-alt-accent-color);
+  font-weight: 600;
+}
+
+.listItem .cell {
+  background-color: var(--selected-list-item-bg-color);
+  margin: 2px;
+  padding: 2px;
+}
+
 
 /* side bar layout  */
 
@@ -694,5 +748,11 @@ p.error {
 
 #roleSelection .panel {
   width: 50%;
+  margin: 10px;
+}
+
+
+#roleSelection .panel.eligibleRoles {
+  width: 80%;
   margin: 10px;
 }
