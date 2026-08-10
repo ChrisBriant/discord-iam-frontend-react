@@ -39,17 +39,20 @@ const dataReducer = (state,action) => {
       let eligRoles = [];
       let roles = [];
 
-      if(action.payload.user_data.eligible_roles_association) {
-        eligRoles = action.payload.user_data.eligible_roles_association;
-      }
-      if(action.payload.user_data.roles) {
-        roles = action.payload.user_data.roles;
-      }
+      // if(action.payload.user_data.eligible_roles_association) {
+      //   eligRoles = action.payload.user_data.eligible_roles_association;
+      // }
+      // if(action.payload.user_data.roles) {
+      //   roles = action.payload.user_data.roles;
+      // }
       
+      //Process the actions the user has available based on their active roles
+
       return {...state,
         profile:action.payload,
-        eligibleRoles : eligRoles,
-        activeRoles : roles
+        // eligibleRoles : eligRoles,
+        // activeRoles : roles,
+        //availableActions : availableActions,
       };
     case 'setEligibleRoles':
       return {...state,eligibleRoles:action.payload};

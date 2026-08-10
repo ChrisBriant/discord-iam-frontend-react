@@ -11,21 +11,35 @@ import DashBoard from "../dashPanels/DashBoard";
 
 const Home = () => {
     const [loadingSession, setLoadingSession] = useState(true);
-    //const [authenticated, setAuthenticated] = useState(false);
-    //const [profile, setProfile] = useState(null);
     const [idps, setIdps] = useState([]);
     const [feedbackSubmitted, setFeedbackSubmitted] = useState(false);
     const [feedbackSubmittedError, setFeedbackSubmittedError] = useState(false);
     const [sessionRefresh,setSessionRefresh] = useState(0);
     const [errorMessage, setErrorMessage] = useState("");
 
-    const {state:{profile,eligibleRoles,activeRoles,authenticated}, setProfile, setAuthenticated } = useContext(AuthContext);
+    const {state:{profile,eligibleRoles,activeRoles,authenticated}, setProfile, setAuthenticated,setActiveRoles, setEligibleRoles } = useContext(AuthContext);
 
+    //Function to set the profile and roles
+    const setProfileAndRoles = (profile) => {
+      let eligRoles = [];
+      let roles = [];
+      
+      if(profile.user_data.eligible_roles_association) {
+        eligRoles = profile.user_data.eligible_roles_association;
+      }
+      if(profile.user_data.roles) {
+        roles = profile.user_data.roles;
+      }
+      setProfile(profile);
+      setActiveRoles(roles);
+      setEligibleRoles(eligRoles);
+    }
 
     useEffect(() => {
         getSession().then((res) => {
             //Set loaded, profile and authenticated 
             setProfile(res);
+            setProfileAndRoles(res);
             setLoadingSession(false);
             setAuthenticated(true);
         }).catch(err => {
@@ -39,8 +53,10 @@ const Home = () => {
             //Try refresh
             refresh().then( async (res) => {
                 const profile = await getSession();
-                setProfile(profile);
+
                 console.log("HERE IS THE PROFILE", profile);
+                setProfileAndRoles(profile);
+
                 setLoadingSession(false);
                 setAuthenticated(true);
             }).catch(async err => {
