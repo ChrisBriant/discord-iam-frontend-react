@@ -345,6 +345,7 @@ p.error {
 
 /* CHANNELS COMPONENT */
 
+.actionItem,
 .channelItem {
     cursor: pointer;
     border-radius: 6px;
@@ -358,10 +359,12 @@ p.error {
     margin: 4px 0;
 }
 
+.actionItem:hover,
 .channelItem:hover {
     box-shadow: 0 0 0 2px #9CA3AF;
     transition: box-shadow 0.2s ease;
 }
+
 
 .channelItem.selected {
     color : var(--selected-channel-item-text);

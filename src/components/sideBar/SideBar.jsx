@@ -1,12 +1,13 @@
 import { useContext, useEffect, useState } from "react";
-import { Context as AuthContext } from "../context/AuthContext";
-import { Context as DataContext } from "../context/DataContext";
-import {getChannels, getFeed} from "../network/discord";
+import { Context as AuthContext } from "../../context/AuthContext";
+import { Context as DataContext } from "../../context/DataContext";
+import {getChannels, getFeed} from "../../network/discord";
 import ChannelList from "./ChannelList";
 import { useNavigate, useLocation } from "react-router-dom";
+import ActionsSelect from "./ActionsSelect";
 
 const SideBar = () => {
-    const {state:{profile,activeRoles,eligibleRoles}} = useContext(AuthContext);
+    const {state:{profile,activeRoles,eligibleRoles,availableActions}} = useContext(AuthContext);
     const {state:{channels,selectedChannel}, setChannels, setSelectedChannel, setFeed} = useContext(DataContext);
     const [errorMessage, setErrorMessage] = useState("");
     const navigate = useNavigate();
@@ -87,9 +88,7 @@ const SideBar = () => {
             {/* { Display the admin actions} */}
             {
                 location.pathname === "/admin"
-                ? <div className="channelsList">
-                    <h3><strong>Actions</strong></h3>
-                    </div>
+                ? <ActionsSelect actions={availableActions} />
                 : null
             }
 

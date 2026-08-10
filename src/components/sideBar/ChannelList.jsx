@@ -1,6 +1,6 @@
 import { useContext } from "react";
-import {Context as DataContext} from "../context/DataContext.jsx";
-import { getFeed } from "../network/discord.js";
+import {Context as DataContext} from "../../context/DataContext.jsx";
+import { getFeed } from "../../network/discord.js";
 
 
 

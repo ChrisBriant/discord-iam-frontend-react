@@ -1,14 +1,6 @@
-// import { useState, useEffect, useContext } from 'react'
 import './App.css'
-// import { getIdpList, getSession, refresh } from './auth/auth'
-// import AuthenticatedDisplay from './components/AuthenticatedDisplay';
-// import SignInDisplay from './components/SignInDisplay';
-// import TermsAndConditions from './components/TermsAndConditions';
-// import Banner from './components/Banner';
 import Title from './components/Title';
-// import {Context as AuthContext} from './context/AuthContext';
-import SideBar from './components/SideBar';
-// import DashBoard from './components/dashPanels/DashBoard';
+import SideBar from './components/SideBar/SideBar';
 import MainRoutes from './components/MainRoutes';
 
 function App() {

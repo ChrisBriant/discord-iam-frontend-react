@@ -6,7 +6,7 @@ import TermsAndConditions from '../TermsAndConditions';
 import Banner from '../Banner';
 import Title from '../Title';
 import {Context as AuthContext} from '../../context/AuthContext';
-import SideBar from '../SideBar';
+import SideBar from '../SideBar/SideBar';
 import DashBoard from "../dashPanels/DashBoard";
 
 const Home = () => {
