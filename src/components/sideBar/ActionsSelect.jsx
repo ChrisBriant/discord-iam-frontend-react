@@ -1,12 +1,15 @@
+import { useContext } from "react";
+import { Context as DataContext } from "../../context/DataContext";
+
 const ActionsSelect = ({actions}) => {
-    console.log("ACTIONS SELECT", actions);
+    const {setSelectedPanel} = useContext(DataContext);
 
     return (
         <div className="actionsList">
-            <h3><strong>Actions</strong></h3>
+            <h3><strong>Actions 0</strong></h3>
                 {
                     actions.map((action) => (
-                        <div key={action} className="actionItem">
+                        <div key={action} className="actionItem" onClick={() => setSelectedPanel(action)}>
                             <p>{action}</p>
                         </div>
                     ))

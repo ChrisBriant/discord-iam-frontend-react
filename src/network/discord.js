@@ -43,6 +43,20 @@ function getEvents() {
     });
 } 
 
+function getRoles() {
+    return new Promise( async (resolve,reject) => {
+        const url = `/authorisation/roles`;
+
+        conn.get(url)
+        .then( (response) => {
+            return resolve(response.data);
+        }).catch((err) => {
+            console.error("ERROR REJECT",err);
+            return reject(err);
+        });
+    });
+} 
+
 function activateRole(roleId) {
     return new Promise( async (resolve,reject) => {
         const url = `/authorisation/${roleId}/activaterole`;
@@ -69,4 +83,4 @@ function deactivateRole(roleId) {
         });
 }
 
-export { getChannels, getFeed, getEvents, activateRole, deactivateRole};
+export { getChannels, getFeed, getEvents, activateRole, deactivateRole, getRoles};

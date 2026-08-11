@@ -1,9 +1,11 @@
 import RoleSelection from "./RoleSelection";
+import AdminContent from "./AdminContent";
 
 const Admin = () => {
     return(
-        <div>
+        <div id="adminBoard">
             <RoleSelection />
+            <AdminContent />
         </div>
     );
 }
