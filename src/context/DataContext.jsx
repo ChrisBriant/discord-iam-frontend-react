@@ -6,7 +6,9 @@ const defaultState = {
   selectedChannel : null,
   events : [],
   users : [],
-  roles : [],
+  roles : {
+    data : [],
+  },
   selectedPanel : null,
 }
 
