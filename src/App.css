@@ -11,6 +11,16 @@
     --side-bar-btn-color : #c0bfc5;
     --side-bar-btn-fg-color : #fff;
 
+    /* paginator colors  */
+    --paginator-bg-color : #fff;
+    --paginator-item-color : #bebebe;
+    --paginator-item-text-color : #0f172a;
+    --paginator-item-hover-color : #949494;
+
+    /* text colors  */
+    --alt-text-color : bisque;
+    --paginator-text-color : #51514e;
+
     /* list items  */
     --list-item-color : #e8f0fe;
     --list-item-text-color : rgb(73, 73, 72);
@@ -58,8 +68,14 @@ img {
     height: 100%;
 }
 
+/* TEXT  */
+
 p.error {
     color : var(--error-text-color);
+}
+
+.textAlt {
+  color : var(--alt-text-color);
 }
 
 /* BUTTONS  */
@@ -106,6 +122,7 @@ p.error {
   outline-offset: 3px;
 }
 
+.calendar-btn-nav:disabled,
 .btn:disabled {
   /* Disabled Colors */
   background-color: var(--btn-disabled-bg-color, #334155);
@@ -115,6 +132,11 @@ p.error {
   cursor: not-allowed;
   box-shadow: none;
   transform: none;
+}
+
+.calendar-btn-nav:disabled:hover {
+  background-color: var(--btn-disabled-bg-color, #334155);
+  color: var(--btn-disabled-text-color);
 }
 
 .btn.alt {
@@ -192,6 +214,16 @@ p.error {
   border: 1px solid var(--panel-alt-border-color);
   color: var(--panel-alt-fg-color);
 } 
+
+#adminBoard {
+  display: flex;
+  flex-direction: row;
+}
+
+#adminContent {
+  width: 50%;
+  margin-left : 10px;
+}
 
 /* LIST ITEMS  */
 
@@ -370,6 +402,63 @@ p.error {
     color : var(--selected-channel-item-text);
     background-color: var(--selected-channel-item-bg);
 }
+
+/* PAGINATOR COMPONENT  */
+.paginator {
+  background-color: var(--paginator-bg-color);
+  color: var(--paginator-text-color);
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.paginator .head {
+  font-weight: 600;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  border-bottom: 1px solid var(--panel-alt-border-color);
+  padding-bottom: 2px;
+}
+
+.paginator .itemSelector {
+  display: flex;
+  flex-direction: column;
+}
+
+.paginator .itemSelector .item {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--paginator-item-color);
+  color : var(--paginator-item-text-color);
+  align-items: start;
+  padding: 2px;
+  margin: 2px;
+  cursor: pointer;
+}
+
+.paginator .itemSelector .item:hover {
+  background-color: var(--paginator-item-hover-color);
+}
+
+.paginator .itemSelector .item.selected {
+    border-left: 4px solid var(--selected-list-item-accent-color);
+    font-weight: 700;
+}
+
+.paginator .controls {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  border-top: 1px solid var(--list-item-border-color);
+  padding-top: 2px;
+  margin-top: 2px;
+}
+
+.paginator .calendar-btn-nav {
+  width: 100px;
+}
+
 
 /* FEED  */
 
@@ -759,3 +848,9 @@ p.error {
   width: 80%;
   margin: 10px;
 }
+
+ /* ROLES PANEL  */
+
+ /* #rolesPanel {
+  width: 50%;
+ } */

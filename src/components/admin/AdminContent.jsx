@@ -18,7 +18,7 @@ const AdminContent = () => {
     }
 
     return(
-        <div id="adminContent">
+        <div id="adminContent" className="panel panelAlt">
             {
                 getConsoleToDisplay()
             }

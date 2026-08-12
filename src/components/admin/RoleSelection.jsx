@@ -68,7 +68,7 @@ const RoleSelection = () => {
 
                 </div>
             </div>
-            <div className="eligibleRoles panel">
+            <div className="eligibleRoles">
                 <div className="head">
                     <h3>Eligible Roles</h3>
                     <p>These are roles you can activate.</p>

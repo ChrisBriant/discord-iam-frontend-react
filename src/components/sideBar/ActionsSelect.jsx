@@ -6,7 +6,7 @@ const ActionsSelect = ({actions}) => {
 
     return (
         <div className="actionsList">
-            <h3><strong>Actions 0</strong></h3>
+            <h3><strong>Actions</strong></h3>
                 {
                     actions.map((action) => (
                         <div key={action} className="actionItem" onClick={() => setSelectedPanel(action)}>

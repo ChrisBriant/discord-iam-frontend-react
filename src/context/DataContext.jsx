@@ -72,6 +72,7 @@ export const {Provider, Context} = createDataContext (
       setFeed,
       setEvents,
       setUsers,
+      setRoles,
       setSelectedPanel,
     },
     {...defaultState}

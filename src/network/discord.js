@@ -83,4 +83,29 @@ function deactivateRole(roleId) {
         });
 }
 
-export { getChannels, getFeed, getEvents, activateRole, deactivateRole, getRoles};
+
+//Goes to the page where there is a paginated response
+//objectType : The type of paginated object, e.g. roles, users. etc.
+function goToPage(objectType, page, pageSize=10) {
+    return new Promise(async (resolve,reject) => {
+        const url = `/authorisation/${objectType}?page=${page}&page_size=${pageSize}`;
+        conn.get(url)
+            .then( (response) => {
+                return resolve(response.data);
+            }).catch((err) => {
+                console.error("ERROR REJECT",err);
+                return reject(err);
+            });
+        });
+}
+
+
+export { 
+    getChannels, 
+    getFeed, 
+    getEvents, 
+    activateRole, 
+    deactivateRole, 
+    getRoles, 
+    goToPage
+};

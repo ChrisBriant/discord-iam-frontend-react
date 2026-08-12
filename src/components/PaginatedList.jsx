@@ -6,7 +6,7 @@ export function PaginatedList({
   onPageChange,
   isLoading = false,
   className = '',
-  gridClassName = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4',
+  gridClassName = 'itemSelector',
 }) {
   const { data, page, total_pages, total, prev_page, next_page } = paginatedData;
   
@@ -25,9 +25,9 @@ export function PaginatedList({
   };
 
   return (
-    <div className={`w-full max-w-4xl mx-auto space-y-6 ${className}`}>
+    <div className={`${className}`}>
       {/* Header Info */}
-      <div className="flex justify-between items-center text-sm text-gray-500 border-b pb-2">
+      <div className="head">
         <span>
           Showing page <strong>{page}</strong> of <strong>{total_pages}</strong>
         </span>
@@ -50,23 +50,23 @@ export function PaginatedList({
       )}
 
       {/* Pagination Controls */}
-      <div className="flex items-center justify-between border-t pt-4">
+      <div className="controls">
         <button
           onClick={handlePrev}
           disabled={page <= 1 || isLoading}
-          className="px-4 py-2 text-sm font-medium border rounded-md disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 transition-colors"
+          className="calendar-btn-nav"
         >
           Previous
         </button>
 
         <span className="text-sm font-medium">
-          Page {page} of {total_pages}
+          {page} of {total_pages}
         </span>
 
         <button
           onClick={handleNext}
           disabled={page >= total_pages || isLoading}
-          className="px-4 py-2 text-sm font-medium border rounded-md disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 transition-colors"
+          className="calendar-btn-nav"
         >
           Next
         </button>
