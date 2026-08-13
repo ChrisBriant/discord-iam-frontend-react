@@ -2,6 +2,7 @@ import { Context as DataContext } from "../../context/DataContext";
 import { useEffect, useContext, useState } from "react";
 import { getRoles, goToPage } from "../../network/discord";
 import { PaginatedList } from "../PaginatedList";
+import RoleManagementModal from "../modals/RoleManagementModal";
 
 
 
@@ -11,6 +12,7 @@ const RolesPanel = () => {
     const [errorMessage, setErrorMessage] = useState(null);
     const [loading,setLoading] = useState(false);
     const [selectedRole,setSelectedRole] = useState(null);
+    const [roleToManage, setRoleToManage] = useState(null);
 
     const RoleCard = ({ item }) => {
         return(
@@ -46,26 +48,43 @@ const RolesPanel = () => {
         }
     }
 
+    const loadRolesDialog = () => {
+        console.log("Role is", selectedRole);
+        const selectedRoleObject = roles.data.filter((item) => item.id === selectedRole);
+        console.log("SELECTED ROLE OBJECT", selectedRoleObject);
+        setRoleToManage(selectedRoleObject[0]);
+    }
+
     return(
-        <div id="rolesPanel" className="">
-            <h2 className="textAlt">Roles</h2>
-            {   
-                !errorMessage
-                ? <PaginatedList 
-                    paginatedData={roles}
-                    itemComponent={RoleCard}
-                    onPageChange={handlePageChange}
-                    isLoading={loading}
-                    className="paginator"
-                />
-                // ? roles.map((role) => (
-                //     <div key={role.id} className="roleItem">
-                //         { role.name }
-                //     </div>
-                // ))
-                : <p className="error">{errorMessage}</p>
+        <>
+            {
+                roleToManage
+                ? <RoleManagementModal selectedRole={roleToManage} />
+                : null
             }
-        </div>
+            <div id="rolesPanel" className="">
+                <h2 className="textAlt">Roles</h2>
+                {   
+                    !errorMessage
+                    ? <PaginatedList 
+                        paginatedData={roles}
+                        itemComponent={RoleCard}
+                        onPageChange={handlePageChange}
+                        isLoading={loading}
+                        className="paginator"
+                        action={loadRolesDialog}
+                        actionButtonName="Manage"
+                    />
+                    // ? roles.map((role) => (
+                    //     <div key={role.id} className="roleItem">
+                    //         { role.name }
+                    //     </div>
+                    // ))
+                    : <p className="error">{errorMessage}</p>
+                }
+            </div>
+        </>
+
     );
 }
 

@@ -9,6 +9,7 @@ const defaultState = {
   roles : {
     data : [],
   },
+  selectedRole : {},
   selectedPanel : null,
 }
 
@@ -27,6 +28,8 @@ const dataReducer = (state,action) => {
       return {...state,users:action.payload};
     case 'setRoles':
       return {...state,roles:action.payload};
+    case 'setSelectedRole' :
+      return {...state,selectedRole:action.payload};
     case 'setSelectedPanel':
       return {...state,selectedPanel:action.payload};
     default:
@@ -65,6 +68,10 @@ const setRoles = (dispatch) => (data) => {
   dispatch({type:'setRoles', payload:data});
 }
 
+const setSelectedRole = (dispatch) => (data) => {
+  dispatch({type:'setSelectedRole', payload:data});
+}
+
 export const {Provider, Context} = createDataContext (
     dataReducer,
     { setChannels,
@@ -73,6 +80,7 @@ export const {Provider, Context} = createDataContext (
       setEvents,
       setUsers,
       setRoles,
+      setSelectedRole,
       setSelectedPanel,
     },
     {...defaultState}

@@ -7,6 +7,8 @@ export function PaginatedList({
   isLoading = false,
   className = '',
   gridClassName = 'itemSelector',
+  action = null,
+  actionButtonName = "Ok"
 }) {
   const { data, page, total_pages, total, prev_page, next_page } = paginatedData;
   
@@ -70,7 +72,19 @@ export function PaginatedList({
         >
           Next
         </button>
-      </div>
+        </div>
+        {/* Display the action button if it is not null  */}
+        {
+          action
+          ? <button
+            onClick={() => action()}
+            className="calendar-btn-nav"
+          >
+            {actionButtonName}
+          </button>
+          : null
+        }
+
     </div>
   );
 }

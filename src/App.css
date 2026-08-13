@@ -189,6 +189,19 @@ p.error {
     margin: 0 10px;
 }
 
+#adminBoard {
+  height: 48vh;
+}
+
+#adminBoard #adminContent,
+#adminBoard #roleSelection {
+  height: 100%;
+}
+
+#adminBoard .paginator {
+  height: 40vh;
+}
+
 .content {
     width: 85%;
     padding: 0 10px;
@@ -423,6 +436,11 @@ p.error {
 .paginator .itemSelector {
   display: flex;
   flex-direction: column;
+}
+
+#adminBoard .paginator .itemSelector {
+  height: 28vh;
+  overflow-y: scroll;
 }
 
 .paginator .itemSelector .item {
