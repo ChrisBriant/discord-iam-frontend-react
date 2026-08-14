@@ -5,6 +5,7 @@
     --sidebar-color : #c0bfc5;
     --error-text-color : #d53e3e;
     --panel-bg-color: #fff;
+    --panel-fg-color : #212121;
     --panel-alt-bg-color : #0f172a;
     --panel-alt-border-color : #1e293b;
     --panel-alt-fg-color : bisque;
@@ -213,6 +214,7 @@ p.error {
     padding: 10px;
     margin-bottom: 20px;
     background-color: var(--panel-bg-color);
+    color: var(--panel-fg-color);
 }
 
 .panel.channelFeed {
@@ -228,6 +230,11 @@ p.error {
   color: var(--panel-alt-fg-color);
 } 
 
+.panel.panelAlt h2,
+.panel.panelAlt h1 {
+  color: var(--panel-alt-fg-color);
+}
+
 #adminBoard {
   display: flex;
   flex-direction: row;
@@ -237,6 +244,45 @@ p.error {
   width: 50%;
   margin-left : 10px;
 }
+
+#roleManagement .panel {
+  height: 100%;
+}
+
+/* DATE FIELD COMPONENT  */
+
+.dateField {
+  display: flex;
+  width: 100%;
+
+}
+
+.dateField input {
+  width: 120px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.dateField input:focus {
+  outline: none;
+  border-color: #1a73e8;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+ 
+.dateField .btn {
+  padding: 8px;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.dateField .btn img {
+  width: 20px;
+  height: 20px;
+
+}
+
+
 
 /* LIST ITEMS  */
 
@@ -530,7 +576,7 @@ p.error {
 } */
 
 .spin-container {
-  position:absolute;
+  /* position:absolute; */
   width: 100%;
 }
 

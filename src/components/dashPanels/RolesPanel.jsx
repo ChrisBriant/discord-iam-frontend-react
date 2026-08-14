@@ -59,7 +59,10 @@ const RolesPanel = () => {
         <>
             {
                 roleToManage
-                ? <RoleManagementModal selectedRole={roleToManage} />
+                ? <RoleManagementModal 
+                    selectedRole={roleToManage} 
+                    onExit={() => setRoleToManage(null)}
+                />
                 : null
             }
             <div id="rolesPanel" className="">
