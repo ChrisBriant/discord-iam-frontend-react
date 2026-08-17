@@ -1,15 +1,21 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { getUsers, getPagedDataAsList } from "../../network/discord";
-import { useContext } from "react";
 import { Context as DataContext } from "../../context/DataContext";
 import ClientPaginatedList from "../ClientPaginatedList";
 import LoadingWidget from "../statusIndicators/LoadingWidget";
 import calendarIcon from "../../assets/calendar.svg";
+//import { DatePicker } from "../UI/DatePicker";
+import { DateTimePicker } from "../UI/DateTimePicker";
+
 
 const RoleManagementModal = ({selectedRole, onExit}) => {
     const {state:{users}, setUsers} = useContext(DataContext);
     const [loading,setLoaded] = useState(true);
     const [selectedUser,setSelectedUser] = useState(null);
+    const [showDatePicker, setShowDatePicker] = useState(false);
+    const [fromDate,setFromDate] = useState(null);
+    const [toDate,setToDate] = useState(null);
+    const [selectedDateField, setSelectedDateField] = useState(null);
 
     const UserCard = ({ item }) => {
         return(
@@ -33,8 +39,29 @@ const RoleManagementModal = ({selectedRole, onExit}) => {
         });
     },[]);
 
+    const handleDateSelection = ({ dateTimeString }) => {
+        console.log('Formatted Date String:', dateTimeString); // "2026-08-17"
+        if(selectedDateField === "eligibleFromDate") setFromDate(dateTimeString);
+        if(selectedDateField === "eligibleToDate") setToDate(dateTimeString);
+        setShowDatePicker(false);
+    };
+
+    const handlePickDate = (dateFieldId) => {
+        setSelectedDateField(dateFieldId);
+        setShowDatePicker(true);
+    }
+
     return(
         <div className="calendar-modal-overlay">
+            {
+                showDatePicker
+                ? <div className="modal-overlay">
+                    <DateTimePicker onSelectDateTime={handleDateSelection} />
+                </div>
+                : null
+            }
+
+            
             <div className="calendar-modal">
                 {
                     selectedRole
@@ -56,13 +83,13 @@ const RoleManagementModal = ({selectedRole, onExit}) => {
                                         <p>Assign {selectedRole.name} to {selectedUser?.user_name}</p>
                                         <label htmlFor="eligibleFromDate">From</label>
                                         <div className="dateField">
-                                            <input id="eligibleFromDate" type="text" />
-                                            <button className="btn"><img src={calendarIcon} alt="calendar icon" /></button>
+                                            <input id="eligibleFromDate" type="text" value={fromDate} />
+                                            <button className="btn" onClick={() => handlePickDate("eligibleFromDate")}><img src={calendarIcon} alt="calendar icon" /></button>
                                         </div>
                                         <label htmlFor="eligibleToDate">To</label>
                                         <div className="dateField">
-                                            <input id="eligibleFromDate" type="text" />
-                                            <button className="btn"><img src={calendarIcon} alt="calendar icon" /></button>
+                                            <input id="eligibleToDate" type="text" value={toDate} />
+                                            <button className="btn" onClick={() => handlePickDate("eligibleToDate")}><img src={calendarIcon} alt="calendar icon" /></button>
                                         </div>
                                     </div>
                                 </div>

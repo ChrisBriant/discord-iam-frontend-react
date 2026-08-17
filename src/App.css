@@ -61,6 +61,9 @@
     /* calendar  */
     --calendar-event-color : #ede583;
     --calendar-day-number-fg-color : #475569;
+    --calendar-cell-selected : #ede583;
+    --calendar-cell-past-bg-color : #0d0d0e;
+    --calendar-cell-past-fg-color : #666666;
 }
 
 
@@ -637,6 +640,7 @@ p.error {
   gap: 0.5rem;
 }
 
+.calendar-btn-confirm,
 .calendar-btn-today,
 .calendar-btn-nav {
   background-color: #1e293b;
@@ -685,6 +689,7 @@ p.error {
   border: 1px solid #1e293b;
 }
 
+
 .calendar-cell {
   min-height: 20px;
   padding: 0.1rem;
@@ -695,6 +700,16 @@ p.error {
   transition: background-color 0.2s ease;
 }
 
+.dateTimePicker .calendar-cell,
+.datePicker .calendar-cell {
+  cursor: pointer;
+}
+
+.dateTimePicker .calendar-cell-selected .calendar-day-number-selected,
+.datePicker .calendar-cell-selected .calendar-day-number-selected {
+  color: var(--calendar-cell-selected);
+}
+
 .calendar-cell-current {
   background-color: rgba(15, 23, 42, 0.9);
 }
@@ -702,6 +717,20 @@ p.error {
 .calendar-cell-other {
   background-color: rgba(15, 23, 42, 0.3);
   color: #475569;
+}
+
+.calendar-cell-past {
+  background-color: var(--calendar-cell-past-bg-color);
+}
+
+
+
+.dateTimePicker .calendar-cell.calendar-cell-past {
+  cursor: not-allowed;
+}
+
+.calendar-cell-past .calendar-day-number {
+  color: var(--calendar-cell-past-fg-color);
 }
 
 /* Day Header Inside Cell */
@@ -786,7 +815,32 @@ p.error {
   color: #818cf8;
 }
 
+/* time picker  */
+.calendar-time-section {
+  display: flex;
+  justify-content: space-evenly;
+  margin: 4px 0;
+}
+
+
+
 /* Modal Styling */
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  z-index: 1000;
+}
+
 .calendar-modal-overlay {
   position: fixed;
   top: 0;
