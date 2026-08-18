@@ -6,6 +6,7 @@ import LoadingWidget from "../statusIndicators/LoadingWidget";
 import calendarIcon from "../../assets/calendar.svg";
 //import { DatePicker } from "../UI/DatePicker";
 import { DateTimePicker } from "../UI/DateTimePicker";
+import { formatDate } from "../../utils/utils";
 
 
 const RoleManagementModal = ({selectedRole, onExit}) => {
@@ -16,12 +17,16 @@ const RoleManagementModal = ({selectedRole, onExit}) => {
     const [fromDate,setFromDate] = useState(null);
     const [toDate,setToDate] = useState(null);
     const [selectedDateField, setSelectedDateField] = useState(null);
+    const [disableAssign,setDisableAssign] = useState(true);
 
     const UserCard = ({ item }) => {
         return(
             <div 
                 className={ selectedUser?.id === item.id ?  "item userItem selected" : "item userItem" }
-                onClick={() => setSelectedUser(item)}
+                onClick={() =>  {
+                    if (selectedUser && (new Date(fromDate) < new Date(toDate))) setDisableAssign(false);
+                    setSelectedUser(item);
+                }}
             >
                 <p>{item.user_name}</p>
             </div>
@@ -39,16 +44,36 @@ const RoleManagementModal = ({selectedRole, onExit}) => {
         });
     },[]);
 
-    const handleDateSelection = ({ dateTimeString }) => {
+    const handleDateSelection = ({ date, dateTimeString }) => {
+        setDisableAssign(true);
+        let newFromDate = fromDate;
+        let newToDate = toDate;
         console.log('Formatted Date String:', dateTimeString); // "2026-08-17"
-        if(selectedDateField === "eligibleFromDate") setFromDate(dateTimeString);
-        if(selectedDateField === "eligibleToDate") setToDate(dateTimeString);
+        if(selectedDateField === "eligibleFromDate") {
+            newFromDate = date;
+            setFromDate(newFromDate);
+        } 
+        if(selectedDateField === "eligibleToDate") {
+            newToDate = date;
+            setToDate(newToDate);
+        }
+        //Control the assignment button
+        if(selectedUser && (new Date(newFromDate) < new Date(newToDate)) ) {
+            console.log("DATE RANGE IS VALID");
+            setDisableAssign(false);
+        } else {
+            console.log("INVALID DATE RANGE", newFromDate, newToDate);
+        }
         setShowDatePicker(false);
     };
 
     const handlePickDate = (dateFieldId) => {
         setSelectedDateField(dateFieldId);
         setShowDatePicker(true);
+    }
+
+    const onAssign = () => {
+        console.log("PRESSED ON ASSIGN");
     }
 
     return(
@@ -83,12 +108,12 @@ const RoleManagementModal = ({selectedRole, onExit}) => {
                                         <p>Assign {selectedRole.name} to {selectedUser?.user_name}</p>
                                         <label htmlFor="eligibleFromDate">From</label>
                                         <div className="dateField">
-                                            <input id="eligibleFromDate" type="text" value={fromDate} />
+                                            <input id="eligibleFromDate" type="text" value={formatDate(fromDate)} disabled={true} />
                                             <button className="btn" onClick={() => handlePickDate("eligibleFromDate")}><img src={calendarIcon} alt="calendar icon" /></button>
                                         </div>
                                         <label htmlFor="eligibleToDate">To</label>
                                         <div className="dateField">
-                                            <input id="eligibleToDate" type="text" value={toDate} />
+                                            <input id="eligibleToDate" type="text" value={formatDate(toDate)} disabled={true} />
                                             <button className="btn" onClick={() => handlePickDate("eligibleToDate")}><img src={calendarIcon} alt="calendar icon" /></button>
                                         </div>
                                     </div>
@@ -99,6 +124,11 @@ const RoleManagementModal = ({selectedRole, onExit}) => {
                                         className="btn alt"
                                         onClick={onExit}
                                     >Exit</button>
+                                                                        <button 
+                                        className="btn alt"
+                                        onClick={onAssign}
+                                        disabled={disableAssign}
+                                    >Assign</button>
                                 </div>
                             </div>
                         }

@@ -9,7 +9,7 @@ const defaultState = {
   roles : {
     data : [],
   },
-  selectedRole : {},
+  selectedRole : null,
   selectedPanel : null,
 }
 

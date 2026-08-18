@@ -14,6 +14,24 @@ export const DateTimePicker = ({ onSelectDateTime, initialDate = new Date() }) =
   const [selectedDate, setSelectedDate] = useState(initialDate);
   const [selectedTime, setSelectedTime] = useState(formatTime(initialDate));
 
+  // --- Top-Level Scoped Time Calculations ---
+  const now = new Date();
+  const isSelectedToday =
+    selectedDate && selectedDate.toDateString() === now.toDateString();
+
+  const currentTime = formatTime(now);
+  const minTime = isSelectedToday ? currentTime : undefined;
+
+  const handleTimeChange = (e) => {
+    const inputTime = e.target.value;
+    // Clamps to current time if user selects a past time on today's date
+    if (isSelectedToday && inputTime < currentTime) {
+      setSelectedTime(currentTime);
+    } else {
+      setSelectedTime(inputTime);
+    }
+  };
+
   // Navigation Handlers
   const handlePrevMonth = () => {
     setViewDate(new Date(viewDate.getFullYear(), viewDate.getMonth() - 1, 1));
@@ -27,6 +45,7 @@ export const DateTimePicker = ({ onSelectDateTime, initialDate = new Date() }) =
     const today = new Date();
     setViewDate(today);
     setSelectedDate(today);
+    setSelectedTime(formatTime(today));
   };
 
   // Calendar Calculations
@@ -45,6 +64,11 @@ export const DateTimePicker = ({ onSelectDateTime, initialDate = new Date() }) =
   const handleDateSelect = (cellYear, cellMonth, dayNumber) => {
     const newDate = new Date(cellYear, cellMonth, dayNumber);
     setSelectedDate(newDate);
+
+    // If switching to today and time is in the past, adjust time to now
+    if (newDate.toDateString() === now.toDateString() && selectedTime < currentTime) {
+      setSelectedTime(currentTime);
+    }
   };
 
   // Confirm / Submit Handler
@@ -150,9 +174,9 @@ export const DateTimePicker = ({ onSelectDateTime, initialDate = new Date() }) =
       {/* 7x6 Calendar Grid */}
       <div className="calendar-grid">
         {calendarCells.map((cell, index) => {
-          const isToday =
+          const isTodayCell =
             cell.isCurrentMonth &&
-            new Date().toDateString() === new Date(cell.year, cell.month, cell.dayNumber).toDateString();
+            now.toDateString() === new Date(cell.year, cell.month, cell.dayNumber).toDateString();
 
           const isSelected = cell.dateKey === selectedDateKey;
 
@@ -163,35 +187,16 @@ export const DateTimePicker = ({ onSelectDateTime, initialDate = new Date() }) =
               key={index}
               className={`calendar-cell ${
                 cell.isCurrentMonth ? 'calendar-cell-current' : 'calendar-cell-other'
-              } 
-              ${isSelected ? 'calendar-cell-selected' : ''}
-                ${
-                  isPast
-                  ? 'calendar-cell-past'
-                  : ''
-                }
-              
-              
-              `}
-              onClick={ !isPast ? () => handleDateSelect(cell.year, cell.month, cell.dayNumber) : null}
+              } ${isSelected ? 'calendar-cell-selected' : ''} ${
+                isPast ? 'calendar-cell-past' : ''
+              }`}
+              onClick={!isPast ? () => handleDateSelect(cell.year, cell.month, cell.dayNumber) : null}
             >
               <div className="calendar-cell-header">
                 <span
                   className={`calendar-day-number ${
-                      isToday
-                      ? 'calendar-day-number-today'
-                      : !cell.isCurrentMonth
-                        ? 'calendar-day-number-other'
-                        : ''
-                  }
-                  ${
-                      isSelected
-                      ? 'calendar-day-number-selected'
-                      : ''
-                  }
-
-
-                  `}
+                    isTodayCell ? 'calendar-day-number-today' : !cell.isCurrentMonth ? 'calendar-day-number-other' : ''
+                  } ${isSelected ? 'calendar-day-number-selected' : ''}`}
                 >
                   {cell.dayNumber}
                 </span>
@@ -210,7 +215,8 @@ export const DateTimePicker = ({ onSelectDateTime, initialDate = new Date() }) =
           id="time-select"
           type="time"
           value={selectedTime}
-          onChange={(e) => setSelectedTime(e.target.value)}
+          min={minTime}
+          onChange={handleTimeChange}
           className="calendar-time-input"
         />
       </div>

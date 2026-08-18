@@ -86,6 +86,12 @@ p.error {
 
 .btnGroup {
   margin: 10px 0;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.btnGroup .btn {
+  min-width: 90px;
 }
 
 
