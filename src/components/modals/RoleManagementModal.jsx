@@ -1,6 +1,7 @@
 import { useEffect, useState, useContext } from "react";
-import { getUsers, getPagedDataAsList } from "../../network/discord";
+import { getUsers, getPagedDataAsList, setEligible } from "../../network/discord";
 import { Context as DataContext } from "../../context/DataContext";
+import { Context as AuthContext } from "../../context/AuthContext";
 import ClientPaginatedList from "../ClientPaginatedList";
 import LoadingWidget from "../statusIndicators/LoadingWidget";
 import calendarIcon from "../../assets/calendar.svg";
@@ -10,7 +11,8 @@ import { formatDate } from "../../utils/utils";
 
 
 const RoleManagementModal = ({selectedRole, onExit}) => {
-    const {state:{users}, setUsers} = useContext(DataContext);
+    const {state:{users, roles}, setUsers} = useContext(DataContext);
+    const {state:{eligibleRoles}, setEligibleRoles} = useContext(AuthContext);
     const [loading,setLoaded] = useState(true);
     const [selectedUser,setSelectedUser] = useState(null);
     const [showDatePicker, setShowDatePicker] = useState(false);
@@ -72,8 +74,49 @@ const RoleManagementModal = ({selectedRole, onExit}) => {
         setShowDatePicker(true);
     }
 
-    const onAssign = () => {
+    const onAssign = async () => {
         console.log("PRESSED ON ASSIGN");
+        if(!selectedRole || !selectedUser || !fromDate || !toDate) {
+            return;
+        }
+
+        const payload = {
+            "role_id": selectedRole.id,
+            "user_id": selectedUser.id,
+            "start_date": fromDate.toISOString(),
+            "end_date": toDate.toISOString()
+        }
+
+        try {
+            const res = await setEligible(payload);
+            console.log("RES", res, eligibleRoles, roles);
+            //Update role association data
+            //BELOW MIGHT NEED TO GO INTO THE ROLES DATA
+            const userEligibleAssociation = {
+                "end_date" : toDate.toISOString(),
+                "start_date" : fromDate.toISOString(),
+                "user" : {
+                    created_at : res.created_at,
+                    discord_id : res.discord_id,
+                    enabled : res.enabled,
+                    global_name : res.global_name,
+                    id : res.id,
+                    terms_accepted : res.terms_accepted,
+                    user_name : res.user_name
+                }
+            }
+            // const roleToUpdate = roles.filter(r => r.id === selectedRole.id);
+            // roleToUpdate.eligible_users_association = [...roleToUpdate.eligible_users_association,userEligibleAssociation];
+
+            const newEligibleRoles = res.eligible_roles_association;
+            console.log("NEW ELIGIBLE ROLES", newEligibleRoles);
+            setEligibleRoles(newEligibleRoles);
+            onExit();
+
+        } catch(err) {
+            console.error("An error occurred trying to assign the role.", err, eligibleRoles,activeRoles, roles);
+        }
+
     }
 
     return(

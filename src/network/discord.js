@@ -125,12 +125,6 @@ function getPagedDataAsList(url) {
             let nextPage = response.data.next_page;
             itemsList = response.data.data;
             while(nextPage) {
-                // conn.get(response.data.next_page).then(nextRes => {
-                //     itemsList = [...itemsList,response.data.data];
-                // }).catch(err => {
-                //     console.error("ERROR REJECT",err);
-                //     return reject(err);
-                // }); 
                 try {
                     const nextRes = await conn.get(nextPage)
                     nextPage = nextRes.next_page;
@@ -148,6 +142,21 @@ function getPagedDataAsList(url) {
     });
 } 
 
+
+function setEligible(payload) {
+    return new Promise(async (resolve,reject) => {
+        const url = `/authorisation/setroleaseligible`;
+        conn.put(url,payload)
+            .then( (response) => {
+                return resolve(response.data);
+            }).catch((err) => {
+                console.error("ERROR REJECT",err);
+                return reject(err);
+            });
+    });
+
+}
+
 export { 
     getChannels, 
     getFeed, 
@@ -158,4 +167,5 @@ export {
     getUsers,
     goToPage,
     getPagedDataAsList,
+    setEligible,
 };
