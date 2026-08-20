@@ -138,12 +138,11 @@ const RoleAssign = ({selectedRole,onExit}) => {
             }
 
             
-            <div className="calendar-modal">
+            <div id="roleAssign" className="">
 
                 {
                     selectedRole
                     ? <div id="roleManagement">
-                        <h1>{selectedRole.name}</h1>
                         {
                             loading 
                             ? <LoadingWidget />

@@ -10,6 +10,7 @@
 // import { formatDate } from "../../utils/utils";
 
 import RoleAssign from "../admin/RoleAssign";
+import TabMenu from "../UI/TabMenu";
 
 
 const RoleManagementModal = ({selectedRole, onExit}) => {
@@ -121,9 +122,27 @@ const RoleManagementModal = ({selectedRole, onExit}) => {
 
     // }
 
+    const tabButtons = [
+        {
+            "name": "Assign Users",
+            "onClick" : () => console.log("clicked assign users")
+        },
+        {
+            "name": "User Roles",
+            "onClick" : () => console.log("clicked user roles")
+        }
+    ];
+
+
     return(
         <div className="calendar-modal-overlay">
-            <RoleAssign selectedRole={selectedRole} onExit={onExit} />
+            <div className="calendar-modal management-modal">
+                <h1>{selectedRole.name}</h1>
+                <TabMenu menuButtons={tabButtons} />
+                <RoleAssign selectedRole={selectedRole} onExit={onExit} />
+
+            </div>
+
             {/* {
                 showDatePicker
                 ? <div className="modal-overlay">
