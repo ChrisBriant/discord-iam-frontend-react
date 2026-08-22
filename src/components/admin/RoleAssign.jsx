@@ -2,15 +2,15 @@ import { useEffect, useState, useContext } from "react";
 import { getUsers, getPagedDataAsList, setEligible } from "../../network/discord";
 import { Context as DataContext } from "../../context/DataContext";
 import { Context as AuthContext } from "../../context/AuthContext";
-import ClientPaginatedList from "../ClientPaginatedList";
+import ClientPaginatedList from "../UI/ClientPaginatedList";
 import LoadingWidget from "../statusIndicators/LoadingWidget";
 import calendarIcon from "../../assets/calendar.svg";
 //import { DatePicker } from "../UI/DatePicker";
 import { DateTimePicker } from "../UI/DateTimePicker";
-import { formatDate } from "../../utils/utils";
+import { formatDate, replaceItem } from "../../utils/utils";
 
 const RoleAssign = ({selectedRole,onExit}) => {
-    const {state:{users, roles}, setUsers} = useContext(DataContext);
+    const {state:{users, roles}, setUsers, setRoles} = useContext(DataContext);
     const {state:{eligibleRoles, profile}, setEligibleRoles, setProfile} = useContext(AuthContext);
     const [loading,setLoaded] = useState(true);
     const [selectedUser,setSelectedUser] = useState(null);
@@ -60,10 +60,10 @@ const RoleAssign = ({selectedRole,onExit}) => {
         }
         //Control the assignment button
         if(selectedUser && (new Date(newFromDate) < new Date(newToDate)) ) {
-            console.log("DATE RANGE IS VALID");
+            console.error("DATE RANGE IS VALID");
             setDisableAssign(false);
         } else {
-            console.log("INVALID DATE RANGE", newFromDate, newToDate);
+            console.error("INVALID DATE RANGE", newFromDate, newToDate);
         }
         setShowDatePicker(false);
     };
@@ -103,8 +103,16 @@ const RoleAssign = ({selectedRole,onExit}) => {
                     user_name : res.user_name
                 }
             }
-            // const roleToUpdate = roles.filter(r => r.id === selectedRole.id);
-            // roleToUpdate.eligible_users_association = [...roleToUpdate.eligible_users_association,userEligibleAssociation];
+
+            console.log("ROLES", roles);
+
+            const roleToUpdate = roles.filter(r => r.id === selectedRole.id)[0];
+            console.log("ROLE TO UPDATE", roleToUpdate);
+            const newEligibleUsersAssociations = roleToUpdate.eligible_users_association.filter(ellig => ellig.user.id !== res.id);
+            roleToUpdate.eligible_users_association = [...newEligibleUsersAssociations,userEligibleAssociation];
+            const newRoles = roles.filter(r => r.id !== selectedRole.id);
+            replaceItem(newRoles,roleToUpdate);
+            //setRoles([...newRoles,roleToUpdate]);
 
             //Do this only if the user performing the action is the user
             if(profile.id === res.id ) {

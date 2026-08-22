@@ -24,4 +24,14 @@ function formatDate(date, format = "YYYY-MM-DD HH:mm") {
     );
 }
 
-export {hasExpired, formatBritishDate, formatDate};
+//Replaces an item in the array
+function replaceItem(items,newObject) {
+    const index = items.findIndex(item => item.id === newObject.id);
+
+    if (index !== -1) {
+        items.splice(index, 1, newObject);
+    }
+}
+
+
+export {hasExpired, formatBritishDate, formatDate, replaceItem};

@@ -1,8 +1,9 @@
 import { Context as DataContext } from "../../context/DataContext";
 import { useEffect, useContext, useState } from "react";
-import { getRoles, goToPage } from "../../network/discord";
+import { getRoles, getPagedDataAsList, goToPage } from "../../network/discord";
 import { PaginatedList } from "../PaginatedList";
 import RoleManagementModal from "../modals/RoleManagementModal";
+import ClientPaginatedList from "../UI/ClientPaginatedList";
 
 
 
@@ -28,13 +29,20 @@ const RolesPanel = () => {
     useEffect(() => {
         console.log("THESE ARE THE ROLES", roles);
         //Update the roles from the backend
-        getRoles().then((res) => {
-            console.log("ROLES FROM BACKEND", res);
-            setRoles(res);
-        }).catch(err => {
-            console.log("An error occured");
-            setErrorMessage("Unable to retrieve roles.");
-        })
+        getPagedDataAsList("/authorisation/roles").then((response) => {
+            console.log("RETRIEVED ROLES", response);
+            setRoles(response);
+            setLoaded(false);
+        }).catch((err) => {
+            console.error("Unable to retrieve the roles", err);
+        });
+        // getRoles().then((res) => {
+        //     console.log("ROLES FROM BACKEND", res);
+        //     setRoles(res);
+        // }).catch(err => {
+        //     console.error("An error occured");
+        //     setErrorMessage("Unable to retrieve roles.");
+        // })
     },[]);
 
     const handlePageChange = async(page) => {
@@ -50,7 +58,8 @@ const RolesPanel = () => {
 
     const loadRolesDialog = () => {
         console.log("Role is", selectedRole);
-        const selectedRoleObject = roles.data.filter((item) => item.id === selectedRole);
+        //const selectedRoleObject = roles.data.filter((item) => item.id === selectedRole);
+        const selectedRoleObject = roles.filter((item) => item.id === selectedRole);
         console.log("SELECTED ROLE OBJECT", selectedRoleObject);
         setRoleToManage(selectedRoleObject[0]);
     }
@@ -69,15 +78,24 @@ const RolesPanel = () => {
                 <h2 className="textAlt">Roles</h2>
                 {   
                     !errorMessage
-                    ? <PaginatedList 
-                        paginatedData={roles}
+                    ? <ClientPaginatedList
+                        items={roles}
+                        pageSize={10}
                         itemComponent={RoleCard}
-                        onPageChange={handlePageChange}
-                        isLoading={loading}
                         className="paginator"
+                        gridClassName="itemSelector"
                         action={loadRolesDialog}
                         actionButtonName="Manage"
                     />
+                    // ? <PaginatedList 
+                    //     paginatedData={roles}
+                    //     itemComponent={RoleCard}
+                    //     onPageChange={handlePageChange}
+                    //     isLoading={loading}
+                    //     className="paginator"
+                    //     action={loadRolesDialog}
+                    //     actionButtonName="Manage"
+                    // />
                     // ? roles.map((role) => (
                     //     <div key={role.id} className="roleItem">
                     //         { role.name }
