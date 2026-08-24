@@ -4,6 +4,7 @@ import { getRoles, getPagedDataAsList, goToPage } from "../../network/discord";
 import { PaginatedList } from "../PaginatedList";
 import RoleManagementModal from "../modals/RoleManagementModal";
 import ClientPaginatedList from "../UI/ClientPaginatedList";
+import LoadingWidget from "../statusIndicators/LoadingWidget";
 
 
 
@@ -11,7 +12,7 @@ import ClientPaginatedList from "../UI/ClientPaginatedList";
 const RolesPanel = () => {
     const {state:{roles}, setRoles} = useContext(DataContext);
     const [errorMessage, setErrorMessage] = useState(null);
-    const [loading,setLoading] = useState(false);
+    const [loading,setLoading] = useState(true);
     const [selectedRole,setSelectedRole] = useState(null);
     const [roleToManage, setRoleToManage] = useState(null);
 
@@ -32,7 +33,7 @@ const RolesPanel = () => {
         getPagedDataAsList("/authorisation/roles").then((response) => {
             console.log("RETRIEVED ROLES", response);
             setRoles(response);
-            setLoaded(false);
+            setLoading(false);
         }).catch((err) => {
             console.error("Unable to retrieve the roles", err);
         });
@@ -74,36 +75,42 @@ const RolesPanel = () => {
                 />
                 : null
             }
-            <div id="rolesPanel" className="">
-                <h2 className="textAlt">Roles</h2>
-                {   
-                    !errorMessage
-                    ? <ClientPaginatedList
-                        items={roles}
-                        pageSize={10}
-                        itemComponent={RoleCard}
-                        className="paginator"
-                        gridClassName="itemSelector"
-                        action={loadRolesDialog}
-                        actionButtonName="Manage"
-                    />
-                    // ? <PaginatedList 
-                    //     paginatedData={roles}
-                    //     itemComponent={RoleCard}
-                    //     onPageChange={handlePageChange}
-                    //     isLoading={loading}
-                    //     className="paginator"
-                    //     action={loadRolesDialog}
-                    //     actionButtonName="Manage"
-                    // />
-                    // ? roles.map((role) => (
-                    //     <div key={role.id} className="roleItem">
-                    //         { role.name }
-                    //     </div>
-                    // ))
-                    : <p className="error">{errorMessage}</p>
-                }
-            </div>
+            {
+                loading
+                ? <LoadingWidget />
+                : <div id="rolesPanel" className="">
+                    <h2 className="textAlt">Roles</h2>
+                    {   
+                        !errorMessage
+                        ? <ClientPaginatedList
+                            items={roles}
+                            pageSize={10}
+                            itemComponent={RoleCard}
+                            className="paginator"
+                            gridClassName="itemSelector"
+                            action={loadRolesDialog}
+                            actionButtonName="Manage"
+                        />
+                        // ? <PaginatedList 
+                        //     paginatedData={roles}
+                        //     itemComponent={RoleCard}
+                        //     onPageChange={handlePageChange}
+                        //     isLoading={loading}
+                        //     className="paginator"
+                        //     action={loadRolesDialog}
+                        //     actionButtonName="Manage"
+                        // />
+                        // ? roles.map((role) => (
+                        //     <div key={role.id} className="roleItem">
+                        //         { role.name }
+                        //     </div>
+                        // ))
+                        : <p className="error">{errorMessage}</p>
+                    }
+                </div>
+            }
+            
+
         </>
 
     );

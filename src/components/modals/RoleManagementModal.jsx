@@ -6,6 +6,7 @@ import UserRoleManager from "../admin/UserRoleManager";
 
 const RoleManagementModal = ({selectedRole, onExit}) => {
     const [showTab, setShowTab] = useState("assign");
+    const [errorMessage, setErrorMessage] = useState("")
 
     const tabButtons = [
         {
@@ -23,6 +24,7 @@ const RoleManagementModal = ({selectedRole, onExit}) => {
         <div className="calendar-modal-overlay">
             <div className="calendar-modal management-modal">
                 <h1>{selectedRole.name}</h1>
+                <p className="error">{errorMessage}</p>
                 <TabMenu menuButtons={tabButtons} />
                 {
                     showTab === "assign"
@@ -32,7 +34,7 @@ const RoleManagementModal = ({selectedRole, onExit}) => {
                 }
                 {
                     showTab ==="users"
-                    ? <UserRoleManager selectedRole={selectedRole}  onExit={onExit}/>
+                    ? <UserRoleManager selectedRole={selectedRole}  onExit={onExit} onError={setErrorMessage}/>
                     : null
                 }
             </div>

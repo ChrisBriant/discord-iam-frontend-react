@@ -157,6 +157,22 @@ function setEligible(payload) {
 
 }
 
+function unassignEligible(payload) {
+    return new Promise(async (resolve,reject) => {
+        const url = `/authorisation/removeeligiblerole`;
+        console.log("THIS IS THE PAYLOAD", payload);
+        conn.delete(url, { data : payload })
+            .then( (response) => {
+                return resolve(response.data);
+            }).catch((err) => {
+                console.error("ERROR REJECT",err);
+                return reject(err);
+            });
+    });
+
+}
+
+
 export { 
     getChannels, 
     getFeed, 
@@ -168,4 +184,5 @@ export {
     goToPage,
     getPagedDataAsList,
     setEligible,
+    unassignEligible,
 };
