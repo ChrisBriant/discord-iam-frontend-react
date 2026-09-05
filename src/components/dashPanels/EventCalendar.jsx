@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 
 export const EventCalendar = ({ events = [] }) => {
   // Initialized to August 2026 based on your example data
-  const [currentDate, setCurrentDate] = useState(new Date(2026, 7, 1));
-  const [selectedEvent, setSelectedEvent] = useState(null);
+
+  const [currentDate, setCurrentDate] = useState(new Date());
+  //const [selectedEvent, setSelectedEvent] = useState(null);
   const [selectedEvents, setSelectedEvents] = useState(null);
 
   // Navigation Handlers
@@ -33,7 +34,7 @@ export const EventCalendar = ({ events = [] }) => {
 
   // Group events by local date string key (YYYY-MM-DD)
   const eventsByDate = events.reduce((acc, event) => {
-    const eventDate = new Date(event.start_time);
+    const eventDate = new Date(event.scheduled_start_time);
     const key = `${eventDate.getFullYear()}-${String(eventDate.getMonth() + 1).padStart(2, '0')}-${String(eventDate.getDate()).padStart(2, '0')}`;
     
     if (!acc[key]) {
@@ -185,11 +186,11 @@ export const EventCalendar = ({ events = [] }) => {
                         <div id={evt.id} key={evt.id} className="modal-event-container">
                             <div className="name"><h3>{evt.name}</h3></div>
                             <div>
-                                <strong>Starts:</strong> {new Date(evt.start_time).toLocaleString('en-GB')}
+                                <strong>Starts:</strong> {new Date(evt.scheduled_start_time).toLocaleString('en-GB')}
                             </div>
                             {evt.end_time && (
                                 <div>
-                                <strong>Ends:</strong> {new Date(evt.end_time).toLocaleString('en-GB')}
+                                <strong>Ends:</strong> {new Date(evt.scheduled_end_time).toLocaleString('en-GB')}
                                 </div>
                             )}
                             <div>
