@@ -276,6 +276,15 @@ p.error {
   height: 100%;
 }
 
+#eligibleRoles {
+  height: 100%;
+}
+
+#eligibleRoles .listBox {
+  height: 50%;
+  overflow-y: scroll;
+}
+
 .tabMenu {
   background: var(--tab-menu-bg-color);
   display: flex;
@@ -553,6 +562,10 @@ p.error {
   border-top: 1px solid var(--list-item-border-color);
   padding-top: 2px;
   margin-top: 2px;
+}
+
+.paginator .controls .text-sm {
+  width: 70px;
 }
 
 .paginator .calendar-btn-nav {
